@@ -3,14 +3,8 @@ package main
 import "fmt"
 
 func main() {
-	s := []int{2, 3, 5, 7, 11, 13}
-
-	s = s[1:4]
-	fmt.Println(s)
-
-	s = s[:2]
-	fmt.Println(s)
-
-	s = s[1:]
-	fmt.Println(s)
+	var pow = []int{1, 2, 4, 8, 16, 32, 64, 128}
+	for i, v := range pow {
+		fmt.Printf("2**%d = %d\n", i, v)
+	}
 }
