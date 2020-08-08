@@ -2,11 +2,13 @@ package main
 
 import (
 	"fmt"
+	"regexp"
 	"strings"
 )
 
 func WordCount(s string) map[string]int {
 	a := make(map[string]int)
+	s = regexp.MustCompile("[^a-zA-Z ]").ReplaceAllString(s, "")
 	for _, w := range strings.Fields(s) {
 		a[w]++
 	}

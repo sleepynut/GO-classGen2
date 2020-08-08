@@ -8,16 +8,12 @@ func main() {
 
 func Pic(dx, dy int) [][]uint8 {
 	pic := [][]uint8{}
-	_ = pic
 	for y := 0; y < dy; y++ {
-		row := []uint8{}
+		row := make([]uint8, dx)
 		for x := 0; x < dx; x++ {
-			if x%2 == 0 {
-				row = append(row, uint8((x+y)/2))
-			} else {
-				row = append(row, uint8(x^y))
-			}
+			row[x] = uint8(x*x + y*y)
 		}
+
 		pic = append(pic, row)
 	}
 	return pic
