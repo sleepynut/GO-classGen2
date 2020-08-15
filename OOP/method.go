@@ -6,11 +6,11 @@ type rectangle struct {
 	width, length int
 }
 
-func area(r rectangle) int {
+func (r *rectangle) area() int {
 	return r.width * r.length
 }
 
 func main() {
 	r := rectangle{3, 4}
-	fmt.Println(area(r))
+	fmt.Println(r.area())
 }
