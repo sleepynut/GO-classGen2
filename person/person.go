@@ -3,7 +3,8 @@ package main
 import "fmt"
 
 type person struct {
-	name string
+	name    string
+	friends map[string]int
 }
 
 func (p *person) walk() {
@@ -15,16 +16,25 @@ func (p *person) eat() {
 func (p *person) greeting() {
 	fmt.Printf("Hello! %s\n", p.name)
 }
-func (p *person) myname() string  { return p.name }
-func (p *person) setter(n string) { p.name = n }
+func (p *person) Name() string { return p.name }
+func (p *person) setName(n string) {
+	p.name = n
+	p.friends["NUT"]++
+}
+
+func (p *person) String() string {
+	return fmt.Sprintf("[Name: %s, Friend(s): %v]\n", p.Name(), p.friends)
+}
 
 func main() {
-	p := person{name: "NUT"}
+	p := person{name: "NUT", friends: make(map[string]int)}
 	p.walk()
 	p.eat()
 	p.greeting()
-	fmt.Println("GETTING: ", p.myname())
+	fmt.Println("GETTING: ", p.Name())
 
-	p.setter("SOMEONE")
-	fmt.Println("GETTING: ", p.myname())
+	p.setName("SOMEONE")
+	fmt.Println("GETTING: ", p.Name())
+
+	fmt.Println(&p)
 }
