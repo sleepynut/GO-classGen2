@@ -18,9 +18,9 @@ var todos = map[int]*Todo{
 }
 
 func helloHandler(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{
-		"message": "hello",
-	})
+	// c.JSON(http.StatusOK, "hi")
+	c.Writer.WriteHeader(http.StatusOK)
+	c.Writer.Write([]byte("hi"))
 }
 
 func getTodosHandler(c *gin.Context) {
@@ -51,17 +51,6 @@ func getTodosByIDHandler(c *gin.Context) {
 
 	c.JSON(http.StatusOK, todo)
 }
-
-// func getTodosByFilterHandler(c *gin.Context) {
-// 	var items []*Todo
-// 	stat := c.Query("status")
-// 	for _, v := range todos {
-// 		if stat != "" && v.Status == stat {
-// 			items = append(items, v)
-// 		}
-// 	}
-// 	c.JSON(http.StatusOK, items)
-// }
 
 func postTodosHandler(c *gin.Context) {
 	t := Todo{}
@@ -108,15 +97,24 @@ func deleteTodosHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, "deleted todo")
 }
 
-func main() {
+func setupRouter() *gin.Engine {
 	r := gin.Default()
 	// r.GET("/hello", helloHandler)
 	// r.Run() // listen and serve on 127.0.0.0:8080 <- default port: 8080
 
-	r.GET("/todos", getTodosHandler)
-	r.GET("/todos/:id", getTodosByIDHandler)
-	r.POST("/todos", postTodosHandler)
-	r.PUT("/todos/:id", updateTodosHandler)
-	r.DELETE("/todos/:id", deleteTodosHandler)
+	// group setting for version control
+	v1 := r.Group("/v1")
+	v1.GET("/todos", getTodosHandler)
+	v1.GET("/todos/:id", getTodosByIDHandler)
+	v1.GET("/hello", helloHandler)
+
+	v1.POST("/todos", postTodosHandler)
+	v1.PUT("/todos/:id", updateTodosHandler)
+	v1.DELETE("/todos/:id", deleteTodosHandler)
+	return r
+}
+
+func main() {
+	r := setupRouter()
 	r.Run(":1234")
 }
