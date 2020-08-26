@@ -16,3 +16,11 @@ unset PORT
 HOW TO ECHO environment variable "PORT" in vs terminal
 
 echo $PORT
+==============================================================
+HOW to build to deploy in different system
+
+go build -o [executable name]
+
+OR [-v in verbose mode]
+
+GOOS=windows GOARCH=amd64 go build -v -o name.exe

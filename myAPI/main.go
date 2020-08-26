@@ -1,6 +1,7 @@
 package main
 
 import (
+	"log"
 	"net/http"
 	"strconv"
 
@@ -101,6 +102,33 @@ func setupRouter() *gin.Engine {
 	r := gin.Default()
 	// r.GET("/hello", helloHandler)
 	// r.Run() // listen and serve on 127.0.0.0:8080 <- default port: 8080
+
+	// add LOGGING middleware
+	r.Use(func(c *gin.Context) {
+		log.Println("Start LOGGING Middleware")
+		c.Next()
+		log.Println("Exit LOGGING Middleware")
+	})
+
+	// alternatively for CHAINED middleware
+	// the execution order will be accordingly
+	// r.Use([]gin.HandlerFunc{mw1,mw2}) ; mw is of type func(c *gin.Context)
+
+	// add AUTHEN middleware
+	r.Use(func(c *gin.Context) {
+		log.Println("Start authentication")
+		if c.GetHeader("Authorization") != "Bearer 1234" {
+			c.JSON(http.StatusUnauthorized, http.StatusText(http.StatusUnauthorized))
+
+			// need to abort gin
+			c.Abort()
+			return
+		}
+
+		// move to next component behind AUTHEN middleware
+		c.Next()
+		log.Println("Exit authentication")
+	})
 
 	// group setting for version control
 	v1 := r.Group("/v1")
