@@ -27,6 +27,7 @@ func todosHandler(w http.ResponseWriter, req *http.Request) {
 		err = json.Unmarshal(body, &t)
 		if err != nil {
 			fmt.Fprintf(w, "error: %v", err)
+			return
 		}
 		todos = append(todos, t)
 		fmt.Printf("% #v\n", todos)
@@ -48,21 +49,34 @@ func todosHandler(w http.ResponseWriter, req *http.Request) {
 	}
 
 	if req.Method == "PUT" {
-		todos[0].Status = "new status"
-		b, err := json.Marshal(todos)
-		if err != nil {
-			w.WriteHeader(http.StatusInternalServerError)
-			fmt.Fprintf(w, "error: %v", err)
-			return
-		}
+		fmt.Println("PUT>>", req.URL.String())
+		fmt.Println("PUT-path>>", req.URL.EscapedPath())
+		// todos[0].Status = "new status"
+		// b, err := json.Marshal(todos)
+		// if err != nil {
+		// 	w.WriteHeader(http.StatusInternalServerError)
+		// 	fmt.Fprintf(w, "error: %v", err)
+		// 	return
+		// }
 
-		w.Header().Set("Content-Type", "application/json")
-		w.Write(b)
+		// w.Header().Set("Content-Type", "application/json")
+		// w.Write(b)
 	}
 	fmt.Fprintf(w, "hello %s todos", req.Method)
 }
+
+// func todosPUTHandler(w http.ResponseWriter, req *http.Request) {
+// 	if req.Method == "PUT" {
+// 		fmt.Println("PUT>>", req.URL.String())
+// 		fmt.Println("PUT-path>>", req.URL.EscapedPath())
+// 	}
+// }
+
 func main() {
 	http.HandleFunc("/todos", todosHandler)
+
+	// how to handle xxx/todos/{x} case ??
+	// http.HandleFunc("/todos/{1}", todosPUTHandler)
 	fmt.Println("starting...")
 	log.Fatal(http.ListenAndServe(":1234", nil))
 	fmt.Println("end")
