@@ -24,3 +24,6 @@ go build -o [executable name]
 OR [-v in verbose mode]
 
 GOOS=windows GOARCH=amd64 go build -v -o name.exe
+==============================================================
+POSTGRESS online free
+www.elephantsql.com
