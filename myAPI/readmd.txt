@@ -1,0 +1,6 @@
+HOW TO USE GO MOD
+
+go mod init github.com/sleepynut/[path]
+
+EXAMPLE
+go mod init github.com/sleepynut/Go-classGen2-1/myAPI
