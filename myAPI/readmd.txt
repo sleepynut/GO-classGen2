@@ -4,3 +4,15 @@ go mod init github.com/sleepynut/[path]
 
 EXAMPLE
 go mod init github.com/sleepynut/Go-classGen2-1/myAPI
+==============================================================
+HOW TO CHANGE environment variable "PORT" in window
+
+export PORT=xxx
+==============================================================
+HOW TO UNCHANGE environment variable "PORT" in window
+
+unset PORT
+==============================================================
+HOW TO ECHO environment variable "PORT" in vs terminal
+
+echo $PORT
