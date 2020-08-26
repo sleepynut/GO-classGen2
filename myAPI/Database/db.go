@@ -9,19 +9,15 @@ import (
 	_ "github.com/lib/pq"
 )
 
-func openConnection() (db *sql.DB, err error) {
+var db *sql.DB
+
+func openConnection() (err error) {
 	// url := "postgres://peoqxscq:o8KzOLhBc8U2tOjVkXN3g2Aj4iVSARXq@satao.db.elephantsql.com:5432/peoqxscq"
 	url := os.Getenv("DATABASE_URL")
 	db, err = sql.Open("postgres", url)
 	return
 }
 func createTable() {
-	db, err := openConnection()
-	if err != nil {
-		log.Fatal(err)
-		return
-	}
-	defer db.Close()
 
 	createTb := `
 	CREATE TABLE IF NOT EXISTS todos (
@@ -36,7 +32,7 @@ func createTable() {
 	// following the execution
 	// however the PLACEHOLDER is used to track
 	// number of rows AFFECTED from the execution
-	_, err = db.Exec(createTb)
+	_, err := db.Exec(createTb)
 
 	if err != nil {
 		log.Fatal("can't create table", err)
@@ -46,16 +42,10 @@ func createTable() {
 }
 
 func insertTodo() {
-	db, err := openConnection()
-	if err != nil {
-		log.Fatal(err)
-		return
-	}
-	defer db.Close()
-
 	row := db.QueryRow("INSERT INTO todos (title, status) values ($1, $2)  RETURNING id;", "talk with my ex", "never")
+
 	var id int
-	err = row.Scan(&id)
+	err := row.Scan(&id)
 	if err != nil {
 		fmt.Println("can't scan id", err)
 		return
@@ -64,13 +54,6 @@ func insertTodo() {
 }
 
 func queryOneRow() {
-	db, err := openConnection()
-	if err != nil {
-		log.Fatal(err)
-		return
-	}
-	defer db.Close()
-
 	stmt, err := db.Prepare("SELECT id, title, status FROM todos where id=$1;")
 	if err != nil {
 		log.Fatal("can't prepare query one row statment", err)
@@ -93,13 +76,6 @@ func queryOneRow() {
 }
 
 func updateTodo() {
-	db, err := openConnection()
-	if err != nil {
-		log.Fatal(err)
-		return
-	}
-	defer db.Close()
-
 	stmt, err := db.Prepare("update todos set status=$1 where id=$2;")
 	if err != nil {
 		log.Fatal("can't prepare update statement", err)
@@ -112,13 +88,6 @@ func updateTodo() {
 }
 
 func queryAllTodo() {
-	db, err := openConnection()
-	if err != nil {
-		log.Fatal(err)
-		return
-	}
-	defer db.Close()
-
 	stmt, err := db.Prepare("select * from todos")
 	if err != nil {
 		log.Fatal("can't prepare query all todos statement", err)
@@ -142,6 +111,12 @@ func queryAllTodo() {
 }
 
 func main() {
+	err := openConnection()
+	if err != nil {
+		log.Fatal(err)
+		return
+	}
+	defer db.Close()
 	// queryOneRow()
 	// insertTodo()
 	// updateTodo()
