@@ -19,6 +19,11 @@ func main() {
 			}`)
 	var t Todo
 	err := json.Unmarshal(data, &t)
+
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
 	fmt.Printf("% #v\n", t)
-	fmt.Println(err)
+
 }
