@@ -6,6 +6,7 @@ EXAMPLE
 go mod init github.com/sleepynut/Go-classGen2-1/myAPI
 ==============================================================
 HOW TO CHANGE environment variable "PORT" in window
+note export ONLY last till vs-code is CLOSED
 
 export PORT=xxx
 ==============================================================
