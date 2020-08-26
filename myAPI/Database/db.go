@@ -70,9 +70,9 @@ func createTable() {
 }
 
 func insertTodo() {
-	url := "postgres://peoqxscq:o8KzOLhBc8U2tOjVkXN3g2Aj4iVSARXq@satao.db.elephantsql.com:5432/peoqxscq"
-	// db, err := sql.Open("postgres", os.Getenv("DATABASE_URL"))
-	db, err := sql.Open("postgres", url)
+	// url := "postgres://peoqxscq:o8KzOLhBc8U2tOjVkXN3g2Aj4iVSARXq@satao.db.elephantsql.com:5432/peoqxscq"
+	db, err := sql.Open("postgres", os.Getenv("DATABASE_URL"))
+	// db, err := sql.Open("postgres", url)
 	if err != nil {
 		log.Fatal("Connect to database error", err)
 	}
@@ -116,7 +116,9 @@ func main() {
 	// insertTodo()
 
 	// os.Setenv("DATABASE_URL", "postgres://peoqxscq:o8KzOLhBc8U2tOjVkXN3g2Aj4iVSARXq@satao.db.elephantsql.com:5432/peoqxscq")
-	fmt.Println(os.Getenv("DATABASE_URL"))
+	// fmt.Println(os.Getenv("DATABASE_URL"))
 
 	// queryOneRow()
+
+	createTable()
 }
