@@ -28,3 +28,7 @@ GOOS=windows GOARCH=amd64 go build -v -o name.exe
 ==============================================================
 POSTGRESS online free
 www.elephantsql.com
+==============================================================
+HOW to restore code after commit github
+
+git restore xx.go
